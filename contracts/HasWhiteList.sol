@@ -1,28 +1,39 @@
 pragma solidity ^0.4.18;
 
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
-
+/* 
+* @title Has White List
+* @dev allow the contracts that inherit from this to have a whitelist
+*/
 contract HasWhiteList is Ownable{
-
+    //events
     event LogAddressAdded(address sender,address added);
     event LogAddressDeleted(address sender,address removed);    
-    event AddressFeeChanged(address sender,uint256 oldFee,uint256 newFee);
-
+    event AddressMinimunFeeChanged(address sender,uint256 oldFee,uint256 newFee);
+    event AddressPercentageChanged(address sender,uint256 oldPercentage,uint256 newPercentage);
+    //mappings
     mapping (address => bool) isInWhitelist;
-    mapping (address => uint256) whitelistFee;
+    mapping (address => uint8) whitelistPercentage;
+    mapping (address => uint256) whitelistMinimunFee;
 
     function isInTheWhiteList(address acc) public constant returns(bool){
         return isInWhitelist[acc];
     }
 
-    function getWhiteListFee(address acc) public constant returns(uint256){
-        return whitelistFee[acc];
+    function getMinimunFee(address acc) public constant returns(uint256){
+        return whitelistMinimunFee[acc];
     }
 
-    function addAccountFromWhitelist(address acc,uint256 amount) onlyOwner public returns(bool){
+    function getPercentage(address acc) public constant returns(uint256){
+        return whitelistPercentage[acc];
+    }
+
+    function addAccountInWhitelist(address acc,uint8 _percentage,uint256 _minimunFee) onlyOwner public returns(bool){
         require(!isInWhitelist[acc]);
+        require(acc != 0);
         isInWhitelist[acc] = true;
-        whitelistFee[acc] = amount;
+        whitelistPercentage[acc] = _percentage;
+        whitelistMinimunFee[acc] = _minimunFee;
         LogAddressAdded(msg.sender,acc);
         return true;
     }
@@ -30,15 +41,28 @@ contract HasWhiteList is Ownable{
     function deleteAccountFromWhitelist(address acc) onlyOwner public returns(bool){
         require(isInWhitelist[acc]);
         isInWhitelist[acc] = false;
+        whitelistPercentage[acc] = 0;
+        whitelistMinimunFee[acc] = 0;
         LogAddressDeleted(msg.sender,acc);
         return true;
     }
 
-    function ChangeAccountFee(address acc,uint256 amount) onlyOwner public returns(bool){
+    function changeAccountMinimunFee(address acc,uint256 amount) onlyOwner public returns(bool){
         require(isInWhitelist[acc]);
-        require(whitelistFee[acc] != amount);
-        AddressFeeChanged(msg.sender,whitelistFee[acc],amount);
-        whitelistFee[acc] = amount;
+        require(acc != 0);
+        require(whitelistMinimunFee[acc] != amount);
+        AddressMinimunFeeChanged(msg.sender,whitelistMinimunFee[acc],amount);
+        whitelistMinimunFee[acc] = amount;
+        return true;
+    }
+
+    function changeAccountPercentage(address acc,uint8 amount) onlyOwner public returns(bool){
+        require(amount < 100);
+        require(isInWhitelist[acc]);
+        require(acc != 0);
+        require(whitelistPercentage[acc] != amount);
+        AddressPercentageChanged(msg.sender,whitelistPercentage[acc],amount);
+        whitelistPercentage[acc] = amount;
         return true;
     }
 }
