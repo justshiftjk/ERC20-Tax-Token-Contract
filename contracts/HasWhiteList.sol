@@ -2,7 +2,7 @@ pragma solidity ^0.4.18;
 
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 /* 
-* @title Has White List
+* @title HasWhiteList
 * @dev allow the contracts that inherit from this to have a whitelist
 */
 contract HasWhiteList is Ownable{
@@ -49,7 +49,6 @@ contract HasWhiteList is Ownable{
 
     function changeAccountMinimunFee(address acc,uint256 amount) onlyOwner public returns(bool){
         require(isInWhitelist[acc]);
-        require(acc != 0);
         require(whitelistMinimunFee[acc] != amount);
         AddressMinimunFeeChanged(msg.sender,whitelistMinimunFee[acc],amount);
         whitelistMinimunFee[acc] = amount;
@@ -57,9 +56,8 @@ contract HasWhiteList is Ownable{
     }
 
     function changeAccountPercentage(address acc,uint8 amount) onlyOwner public returns(bool){
-        require(amount < 100);
         require(isInWhitelist[acc]);
-        require(acc != 0);
+        require(amount < 100);
         require(whitelistPercentage[acc] != amount);
         AddressPercentageChanged(msg.sender,whitelistPercentage[acc],amount);
         whitelistPercentage[acc] = amount;

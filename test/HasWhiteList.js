@@ -50,5 +50,22 @@ contract('HasWhiteList', function (accounts) {
     assert.equal(percentage,0);
     assert.equal(minimunFee,0);
   })
-  
+
+  it("shouldn't modify minimunFee if the sender is not the ownner",async function(){
+    await contract.addAccountInWhitelist(owner,10,10,{from : owner});
+    await assertRevert(contract.changeAccountMinimunFee(owner,20,{from : anotherAccount}));
+  })
+
+  it("shouldn't modify percentage if the sender is not the ownner",async function(){
+    await contract.addAccountInWhitelist(owner,10,10,{from : owner});
+    await assertRevert(contract.changeAccountPercentage(owner,20,{from : anotherAccount}));
+  })
+
+  it("shouldn't modify minimunFee if the account isn't in whitelist",async function(){
+    await assertRevert(contract.changeAccountMinimunFee(owner,20,{from : owner}));
+  })
+
+  it("shouldn't modify percentage if the account isn't in whitelist",async function(){
+    await assertRevert(contract.changeAccountPercentage(owner,20,{from : owner}));
+  })
 });
