@@ -68,4 +68,32 @@ contract('HasWhiteList', function (accounts) {
   it("shouldn't modify percentage if the account isn't in whitelist",async function(){
     await assertRevert(contract.changeAccountPercentage(owner,20,{from : owner}));
   })
+
+  it("shouldn't modify percentage if the new percentage is 100 or higher",async function(){
+    await contract.addAccountInWhitelist(owner,10,10,{from : owner});    
+    await assertRevert(contract.changeAccountPercentage(owner,100,{from : owner}));
+    await assertRevert(contract.changeAccountPercentage(owner,101,{from : owner}));
+  })
+
+  it("shouldn't modify percentage if the new percentage is equal to the old one",async function(){
+    await contract.addAccountInWhitelist(owner,0,0,{from : owner});    
+    await contract.changeAccountPercentage(owner,10,{from : owner});
+    await assertRevert(contract.changeAccountPercentage(owner,10,{from : owner}));
+  })
+
+  it("shouldn't modify minimunFee if the new fee is equal to the old one",async function(){
+    await contract.addAccountInWhitelist(owner,0,0,{from : owner});    
+    await contract.changeAccountMinimunFee(owner,10,{from : owner});
+    await assertRevert(contract.changeAccountMinimunFee(owner,10,{from : owner}));
+  })
+
+  it("should modify percentage and minimunFee",async function(){
+    await contract.addAccountInWhitelist(owner,0,0,{from : owner});    
+    await contract.changeAccountPercentage(owner,10,{from : owner});
+    let result = await contract.getPercentage(owner);
+    assert.equal(result,10);
+    await contract.changeAccountMinimunFee(owner,10,{from : owner});
+    result = await contract.getMinimunFee(owner);
+    assert.equal(result,10);
+  })
 });
