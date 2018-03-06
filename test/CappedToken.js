@@ -8,7 +8,7 @@ contract('Capped', function (accounts) {
   let token;
 
   beforeEach(async function () {
-    token = await CappedToken.new(cap);
+    token = await CappedToken.new(cap,10,10);
   });
 
   it('should start with the correct cap', async function () {
