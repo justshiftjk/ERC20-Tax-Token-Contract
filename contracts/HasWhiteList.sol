@@ -15,19 +15,33 @@ contract HasWhiteList is Ownable{
     mapping (address => bool) isInWhitelist;
     mapping (address => uint8) whitelistPercentage;
     mapping (address => uint256) whitelistMinimunFee;
-
+    /**
+    * @dev check if a given account is in the whitelist
+    * @param acc address to chek.
+    */
     function isInTheWhiteList(address acc) public constant returns(bool){
         return isInWhitelist[acc];
     }
-
+    /**
+    * @dev return the minimunFee assigned to a given account.
+    * @param acc address to check.
+    */
     function getMinimunFee(address acc) public constant returns(uint256){
         return whitelistMinimunFee[acc];
     }
-
+    /**
+    * @dev return the percentage assigned to a given account.
+    * @param acc address to chek.
+    */
     function getPercentage(address acc) public constant returns(uint256){
         return whitelistPercentage[acc];
     }
-
+    /**
+    * @dev add a new account in the whitelist.
+    * @param acc address to add.
+    * @param _percentage the percentage that has to be assigned to that account
+    * @param _minimunFee the minimunFee that has to be assigned to that account
+    */
     function addAccountInWhitelist(address acc,uint8 _percentage,uint256 _minimunFee) onlyOwner public returns(bool){
         require(!isInWhitelist[acc]);
         require(acc != 0);
@@ -37,7 +51,10 @@ contract HasWhiteList is Ownable{
         LogAddressAdded(msg.sender,acc);
         return true;
     }
-
+    /**
+    * @dev delete an account from the whitelist.
+    * @param acc address to delete.
+    */
     function deleteAccountFromWhitelist(address acc) onlyOwner public returns(bool){
         require(isInWhitelist[acc]);
         isInWhitelist[acc] = false;
@@ -46,7 +63,11 @@ contract HasWhiteList is Ownable{
         LogAddressDeleted(msg.sender,acc);
         return true;
     }
-
+    /**
+    * @dev assign a new minimun fee to a whitelisted address;
+    * @param acc address that have tobe modified.
+    * @param amount the new minimun fee.
+    */
     function changeAccountMinimunFee(address acc,uint256 amount) onlyOwner public returns(bool){
         require(isInWhitelist[acc]);
         require(whitelistMinimunFee[acc] != amount);
@@ -54,7 +75,11 @@ contract HasWhiteList is Ownable{
         whitelistMinimunFee[acc] = amount;
         return true;
     }
-
+    /**
+    * @dev assign a new percentage to a whitelisted address;
+    * @param acc address that have to be modified.
+    * @param amount the new percentage.
+    */
     function changeAccountPercentage(address acc,uint8 amount) onlyOwner public returns(bool){
         require(isInWhitelist[acc]);
         require(amount < 100);
