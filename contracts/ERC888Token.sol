@@ -13,7 +13,6 @@ import "./HasWhiteList.sol";
 contract ERC888Token is PausableToken,CappedToken,BurnableToken,Taxable,HasWhiteList{
 
   function transfer(address _to, uint256 _value) public returns (bool) {
-    require(_value > minimunFee);
     require(_to != address(0));
     require(_value <= balances[msg.sender]);
     //required variables
@@ -42,7 +41,7 @@ contract ERC888Token is PausableToken,CappedToken,BurnableToken,Taxable,HasWhite
     }
     //transfer
     balances[_to] = balances[_to].add(_value);
-    Transfer(msg.sender, _to, _value + requiredMinimunFee);
+    Transfer(msg.sender, _to, _value);
     return true;
   }
   
@@ -50,7 +49,6 @@ contract ERC888Token is PausableToken,CappedToken,BurnableToken,Taxable,HasWhite
     require(_to != address(0));
     require(_value <= balances[_from]);
     require(_value <= allowed[_from][msg.sender]);
-    balances[_from] = balances[_from].sub(_value);
     //required variables
     uint requiredPercentage;
     uint requiredMinimunFee; 
@@ -63,9 +61,10 @@ contract ERC888Token is PausableToken,CappedToken,BurnableToken,Taxable,HasWhite
     }
     require(_value > requiredMinimunFee);
     //expected fee
+    allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
     uint fee = (_value * requiredPercentage)/100;
     //substraction
-    balances[msg.sender] = balances[msg.sender].sub(_value);
+    balances[_from] = balances[_from].sub(_value);
     //check if the fee can be accepted
     if(fee < requiredMinimunFee){
         totalSupply_ -= requiredMinimunFee;
@@ -77,7 +76,6 @@ contract ERC888Token is PausableToken,CappedToken,BurnableToken,Taxable,HasWhite
     }
     //transfer
     balances[_to] = balances[_to].add(_value);
-    allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
     Transfer(_from, _to, _value);
     return true;
   }
