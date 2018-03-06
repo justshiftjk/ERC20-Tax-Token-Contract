@@ -56,7 +56,7 @@ contract('ERC888Token', function ([_, owner, recipient, anotherAccount]) {
       });
 
       describe('when the sender has enough balance', function () {
-        const amount = 100;
+        const amount = 50;
 
         it('transfers the requested amount using percentage', async function () {
           await this.token.transfer(to, amount, { from: owner });
@@ -66,6 +66,8 @@ contract('ERC888Token', function ([_, owner, recipient, anotherAccount]) {
 
           const recipientBalance = await this.token.balanceOf(to);
           assert.equal(recipientBalance.c[0], amount - 10 );
+          //should be able to mint the fee
+          await this.token.mint(owner,10,{from : owner});
         });
 
         it('transfers the requested amount using minimun fee', async function () {
@@ -77,6 +79,8 @@ contract('ERC888Token', function ([_, owner, recipient, anotherAccount]) {
 
           const recipientBalance = await this.token.balanceOf(to);
           assert.equal(recipientBalance.c[0], amount - 50);
+          //should be able to mint the fee
+          await this.token.mint(owner,50,{from : owner});
         });
 
         it('transfers the requested amount using whitelisted percentage', async function () {
@@ -87,6 +91,8 @@ contract('ERC888Token', function ([_, owner, recipient, anotherAccount]) {
 
           const recipientBalance = await this.token.balanceOf(to);
           assert.equal(recipientBalance.c[0], amount - 20 );
+          //should be able to mint the fee
+          await this.token.mint(owner,20,{from : owner});
         });
 
         it('transfers the requested amount using whitelisted minimun fee', async function () {
@@ -98,6 +104,8 @@ contract('ERC888Token', function ([_, owner, recipient, anotherAccount]) {
 
           const recipientBalance = await this.token.balanceOf(to);
           assert.equal(recipientBalance.c[0], amount - 50);
+          //should be able to mint the fee
+          await this.token.mint(owner,50,{from : owner});
         });
 
         it('emits a transfer event', async function () {
@@ -232,23 +240,62 @@ contract('ERC888Token', function ([_, owner, recipient, anotherAccount]) {
         });
 
         describe('when the owner has enough balance', function () {
-          const amount = 100;
+          const amount = 50;
 
-          it('transfers the requested amount', async function () {
+          it('transfers the requested amount using percentage', async function () {
             await this.token.transferFrom(owner, to, amount, { from: spender });
 
             const senderBalance = await this.token.balanceOf(owner);
-            assert.equal(senderBalance, 0);
+            assert.equal(senderBalance, 50);
 
             const recipientBalance = await this.token.balanceOf(to);
-            assert.equal(recipientBalance, amount-10);
+            assert.equal(recipientBalance, amount-5);
+            //should be able to mint the fee
+            await this.token.mint(owner,5,{from : owner});
+          });
+
+          it('transfers the requested amount using minimun fee', async function () {
+            await this.token.changeMinimunFee(40,{from : owner})
+            await this.token.transferFrom(owner, to, amount, { from: spender });
+
+            const senderBalance = await this.token.balanceOf(owner);
+            assert.equal(senderBalance, 50);
+
+            const recipientBalance = await this.token.balanceOf(to);
+            assert.equal(recipientBalance, amount-40);
+          });
+
+          it('transfers the requested amount using whitelisted percentage', async function () {
+            await this.token.addAccountInWhitelist(spender,20,0,{from : owner})
+            await this.token.transferFrom(owner, to, amount, { from: spender });
+
+            const senderBalance = await this.token.balanceOf(owner);
+            assert.equal(senderBalance, 50);
+
+            const recipientBalance = await this.token.balanceOf(to);
+            assert.equal(recipientBalance.c[0], amount-10);
+            //should be able to mint the fee
+            await this.token.mint(owner,10,{from : owner});
+          });
+
+          it('transfers the requested amount using whitelisted minimun fee', async function () {
+            await this.token.addAccountInWhitelist(spender,0,20,{from : owner})
+            await this.token.transferFrom(owner, to, amount, { from: spender });
+
+            const senderBalance = await this.token.balanceOf(owner);
+            assert.equal(senderBalance.c[0], 50);
+
+            const recipientBalance = await this.token.balanceOf(to);
+            assert.equal(recipientBalance.c[0], amount-20);
+            //should be able to mint the fee
+            await this.token.mint(owner,20,{from : owner});
           });
 
           it('decreases the spender allowance', async function () {
             await this.token.transferFrom(owner, to, amount, { from: spender });
 
             const allowance = await this.token.allowance(owner, spender);
-            assert(allowance.eq(0));
+            assert(allowance.eq(50));
           });
 
           it('emits a transfer event', async function () {
@@ -258,7 +305,7 @@ contract('ERC888Token', function ([_, owner, recipient, anotherAccount]) {
             assert.equal(logs[0].event, 'Transfer');
             assert.equal(logs[0].args.from, owner);
             assert.equal(logs[0].args.to, to);
-            assert(logs[0].args.value.eq(amount-10));
+            assert(logs[0].args.value.eq(amount-5));
           });
         });
 
@@ -267,6 +314,16 @@ contract('ERC888Token', function ([_, owner, recipient, anotherAccount]) {
 
           it('reverts', async function () {
             await assertRevert(this.token.transferFrom(owner, to, amount, { from: spender }));
+          });
+
+          it('reverts', async function () {
+            await this.token.addAccountInWhitelist(spender,0,20,{from : owner})
+            await assertRevert(this.token.transferFrom(owner, to, 10, { from: spender }));
+          });
+
+          it('reverts', async function () {
+            await this.token.changeMinimunFee(100,{from : owner})
+            await assertRevert(this.token.transferFrom(owner, to, 0, { from: spender }));
           });
         });
       });
