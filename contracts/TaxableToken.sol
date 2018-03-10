@@ -10,7 +10,7 @@ import "./HasWhiteList.sol";
  * @title ERC888 Token
  * @dev ERC20 Token with fee on sending
  */
-contract ERC888Token is PausableToken,CappedToken,BurnableToken,Taxable,HasWhiteList{
+contract TaxableToken is PausableToken,CappedToken,BurnableToken,Taxable,HasWhiteList{
   /**
   * @dev transfer token for a specified address burning a fee.
   * @param _to The address to transfer to.

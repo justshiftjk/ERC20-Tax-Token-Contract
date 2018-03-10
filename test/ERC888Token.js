@@ -1,5 +1,5 @@
 var assertRevert = require("../utils/assertRevert.js");
-const ERC888Token = artifacts.require('ERC888Mock');
+const ERC888Token = artifacts.require('TaxableTokenMock');
 
 contract('ERC888Token', function ([_, owner, recipient, anotherAccount]) {
   const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -115,7 +115,7 @@ contract('ERC888Token', function ([_, owner, recipient, anotherAccount]) {
           assert.equal(logs[0].event, 'Transfer');
           assert.equal(logs[0].args.from, owner);
           assert.equal(logs[0].args.to, to);
-          assert(logs[0].args.value.eq(90));
+          assert(logs[0].args.value.eq(45));
         });
       });
     });

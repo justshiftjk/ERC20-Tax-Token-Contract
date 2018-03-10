@@ -1,6 +1,6 @@
 var assertRevert = require("../utils/assertRevert.js");
 
-var CappedToken = artifacts.require('ERC888Mock');
+var CappedToken = artifacts.require('TaxableTokenMock');
 
 contract('Capped', function (accounts) {
   const cap = 1000;
