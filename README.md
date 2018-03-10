@@ -8,6 +8,7 @@ the owner can:
   
   * put some account in a whitelist to give them special fees
   
-  * when someone send some tokens, some of them get burned and then the owner can mint the difference while the cap(initail supply) isn't reached
+  * when someone send some tokens, some of them get burned so the owner can mint the difference while the cap(initial supply) isn't reached
 
   * have a percentage and a minimunFee
+  
