@@ -11,6 +11,10 @@ import "./HasWhiteList.sol";
  * @dev ERC20 Token with fee on sending
  */
 contract TaxableToken is PausableToken,CappedToken,BurnableToken,Taxable,HasWhiteList{
+   //state variables
+   string public name;
+   string public symbol;
+   uint8 public decimals;
   /**
   * @dev transfer token for a specified address burning a fee.
   * @param _to The address to transfer to.

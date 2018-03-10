@@ -1,11 +1,11 @@
 var assertRevert = require("../utils/assertRevert.js");
-const ERC888Token = artifacts.require('TaxableTokenMock');
+const TaxableToken = artifacts.require('TaxableTokenMock');
 
-contract('ERC888Token', function ([_, owner, recipient, anotherAccount]) {
+contract('TaxableToken', function ([_, owner, recipient, anotherAccount]) {
   const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
   beforeEach(async function () {
-    this.token = await ERC888Token.new(100,0,10,{from : owner});
+    this.token = await TaxableToken.new(100,0,10,"token","tkn",10,{from : owner});
   });
 
   describe('total supply', function () {
