@@ -114,7 +114,7 @@ contract TaxableToken is PausableToken,CappedToken,BurnableToken,Taxable,HasWhit
 }
 ```
 
-### ERC223 disadvantages.
+### Taxable Token disadvantages.
   1. cost a lot of gas for deploying(4000000 gas on kovan)
   2. cost more gas when a sender want to send some tokens because of the burning operation.
 
