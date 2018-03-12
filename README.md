@@ -123,7 +123,7 @@ contract TaxableToken is PausableToken,CappedToken,BurnableToken,Taxable,HasWhit
 ```js
 pragma solidity ^0.4.18;
 
-import "../TaxableToken.sol";
+import "./TaxableToken.sol";
 
 contract TaxableTokenMock is TaxableToken{
     function TaxableTokenMock(uint256 supply, uint256 _minimunFee, uint8 _percentage,string _name,string _symbol,uint8 _decimals) public{
@@ -145,3 +145,9 @@ contract TaxableTokenMock is TaxableToken{
 ### Info
 
 you can find a deployed instance of this token at https://kovan.etherscan.io/token/0x298c116572a58cd10980f090a17755b5d098e1a9
+
+### How to use it
+
+ * download this repo
+ * import this repo's contracts in your contracts folder.
+ * try with the example token
