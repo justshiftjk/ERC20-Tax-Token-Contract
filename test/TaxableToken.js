@@ -45,12 +45,12 @@ contract('TaxableToken', function ([_, owner, recipient, anotherAccount]) {
           await assertRevert(this.token.transfer(to, amount, { from: owner }));
         });
         it('reverts', async function () {
-          await this.token.changeMinimunFee(50, { from: owner });
+          await this.token.setMinimunFee(50, { from: owner });
           await assertRevert(this.token.transfer(to, amount - 70, { from: owner }));
         });
 
         it('reverts', async function () {
-          await this.token.addAccountInWhitelist(owner,0,50,{from : owner});
+          await this.token.addWhitelistedAccount(owner,0,50,{from : owner});
           await assertRevert(this.token.transfer(to, amount - 70, { from: owner }));        
         });
       });
@@ -71,7 +71,7 @@ contract('TaxableToken', function ([_, owner, recipient, anotherAccount]) {
         });
 
         it('transfers the requested amount using minimun fee', async function () {
-          await this.token.changeMinimunFee(40, { from: owner });
+          await this.token.setMinimunFee(40, { from: owner });
           await this.token.transfer(to, amount, { from: owner });
 
           const senderBalance = await this.token.balanceOf(owner);
@@ -84,7 +84,7 @@ contract('TaxableToken', function ([_, owner, recipient, anotherAccount]) {
         });
 
         it('transfers the requested amount using whitelisted percentage', async function () {
-          await this.token.addAccountInWhitelist(owner,20,0,{from : owner});
+          await this.token.addWhitelistedAccount(owner,20,0,{from : owner});
           await this.token.transfer(to, amount, { from: owner });
           const senderBalance = await this.token.balanceOf(owner);
           assert.equal(senderBalance, 50);
@@ -96,7 +96,7 @@ contract('TaxableToken', function ([_, owner, recipient, anotherAccount]) {
         });
 
         it('transfers the requested amount using whitelisted minimun fee', async function () {
-          await this.token.addAccountInWhitelist(owner,0,40,{from : owner});
+          await this.token.addWhitelistedAccount(owner,0,40,{from : owner});
           await this.token.transfer(to, amount, { from: owner });
 
           const senderBalance = await this.token.balanceOf(owner);
@@ -255,7 +255,7 @@ contract('TaxableToken', function ([_, owner, recipient, anotherAccount]) {
           });
 
           it('transfers the requested amount using minimun fee', async function () {
-            await this.token.changeMinimunFee(40,{from : owner})
+            await this.token.setMinimunFee(40,{from : owner})
             await this.token.transferFrom(owner, to, amount, { from: spender });
 
             const senderBalance = await this.token.balanceOf(owner);
@@ -266,7 +266,7 @@ contract('TaxableToken', function ([_, owner, recipient, anotherAccount]) {
           });
 
           it('transfers the requested amount using whitelisted percentage', async function () {
-            await this.token.addAccountInWhitelist(spender,20,0,{from : owner})
+            await this.token.addWhitelistedAccount(spender,20,0,{from : owner})
             await this.token.transferFrom(owner, to, amount, { from: spender });
 
             const senderBalance = await this.token.balanceOf(owner);
@@ -279,7 +279,7 @@ contract('TaxableToken', function ([_, owner, recipient, anotherAccount]) {
           });
 
           it('transfers the requested amount using whitelisted minimun fee', async function () {
-            await this.token.addAccountInWhitelist(spender,0,20,{from : owner})
+            await this.token.addWhitelistedAccount(spender,0,20,{from : owner})
             await this.token.transferFrom(owner, to, amount, { from: spender });
 
             const senderBalance = await this.token.balanceOf(owner);
@@ -317,12 +317,12 @@ contract('TaxableToken', function ([_, owner, recipient, anotherAccount]) {
           });
 
           it('reverts', async function () {
-            await this.token.addAccountInWhitelist(spender,0,20,{from : owner})
+            await this.token.addWhitelistedAccount(spender,0,20,{from : owner})
             await assertRevert(this.token.transferFrom(owner, to, 10, { from: spender }));
           });
 
           it('reverts', async function () {
-            await this.token.changeMinimunFee(100,{from : owner})
+            await this.token.setMinimunFee(100,{from : owner})
             await assertRevert(this.token.transferFrom(owner, to, 0, { from: spender }));
           });
         });

@@ -15,20 +15,20 @@ contract Taxable is Ownable{
     //state variables
     uint8 public percentage;
     uint256 public minimunFee;
-    bool public canChangePercentage;
+    bool public cansetPercentage;
     bool public canChangeMinimunFee;
     //constructor
     function Taxable() public {
-        canChangePercentage = true;
+        cansetPercentage = true;
         canChangeMinimunFee = true;
     }
     /**
     * @dev change the contract percentage fee.
     * @param _percentage The new percentage.
     */
-    function changePercentage(uint8 _percentage) onlyOwner public returns(bool){
+    function setPercentage(uint8 _percentage) onlyOwner public returns(bool){
         require(_percentage < 100);
-        require(canChangePercentage);
+        require(cansetPercentage);
         LogPercentageChanges(msg.sender,percentage,_percentage);
         percentage = _percentage;
         return true;
@@ -37,7 +37,7 @@ contract Taxable is Ownable{
     * @dev change the minimun fee.
     * @param _minimunFee The new minimun fee.
     */
-    function changeMinimunFee(uint256 _minimunFee) onlyOwner public returns(bool){
+    function setMinimunFee(uint256 _minimunFee) onlyOwner public returns(bool){
         require(canChangeMinimunFee);
         LogMinimunFeeChanges(msg.sender,minimunFee,_minimunFee);
         minimunFee = _minimunFee;
@@ -46,16 +46,16 @@ contract Taxable is Ownable{
     /**
     * @dev make impossible to change percentage again
     */
-    function stopChangePercentage() public onlyOwner returns(bool){
-        require(canChangePercentage);
-        canChangePercentage = false;
+    function stopSetPercentage() public onlyOwner returns(bool){
+        require(cansetPercentage);
+        cansetPercentage = false;
         StoppingChangingPercentage();
         return true;
     }  
     /**
     * @dev make impossible to change minimunFee again
     */
-    function stopChangeMinimunFee() public onlyOwner returns(bool){
+    function stopSetMinimunFee() public onlyOwner returns(bool){
         require(canChangeMinimunFee);
         canChangeMinimunFee = false;
         StoppingChangingMinimunFee();
