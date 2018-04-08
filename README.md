@@ -180,4 +180,9 @@ The Taxable token apply a tax to each transaction, so if A transfers N tokens to
    * B receive 9 token,the one that miss is burned
    * C(the owner) can mint while the maximum supply is not reached
    * the owner can't mint more than the maximum supply
-   
+### Why C haven't received the token when A have sent his 10 tokes to B
+I've realized that sending the token to C would have cost a big amount of gas to A,so: 
+
+I replaced this operation with a burning(that cost a lot less),then i decided to make the owner mint the amount of token that had been burned.
+
+acting that way results less expensive for the sender.
