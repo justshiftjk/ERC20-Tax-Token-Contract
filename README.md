@@ -116,7 +116,7 @@ contract TaxableToken is PausableToken,CappedToken,BurnableToken,Taxable,HasWhit
 
 ## Taxable Token disadvantages.
   1. cost a lot of gas for deploying(4000000 gas on kovan)
-  2. cost more gas when a sender want to send some tokens because of the burning operation.
+  2. cost more gas in the sending operation(around 58000) than a normal ERC20(around 50000).
 
 ## Example of a possible contract created using this 'standard'
 
@@ -143,7 +143,6 @@ contract TaxableTokenMock is TaxableToken{
 ```
 ## Info
 * you can find a deployed instance of this token at https://kovan.etherscan.io/token/0x298c116572a58cd10980f090a17755b5d098e1a9
-* gas for a transaction: 58000
 ## How to use it
  * download this repo
  * import this repo's contracts in your contracts folder.
@@ -180,6 +179,6 @@ The Taxable token apply a tax to each transaction, so if A transfers N tokens to
    * A send 10 token to B
    * C has set the percentage to 10%
    * B receive 9 token, the the one that miss is burned
-   * C(the owner) can mint while the initial supply is not reached
-   * the owner can't mint more than the initial supply
+   * C(the owner) can mint while the maximum supply is not reached
+   * the owner can't mint more than the maximum supply
    
