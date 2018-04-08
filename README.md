@@ -149,7 +149,6 @@ contract TaxableTokenMock is TaxableToken{
  * try with the example token
  
 ## Purpose
-
 The ico's popularity have caused the creation of new economics standards for the sustainability and the increasing of the price of the emitted tokens 
 
 Generally the price of a token is based on one of those two concepts:
