@@ -186,3 +186,5 @@ I've realized that sending the token to C would have cost a big amount of gas to
 I replaced this operation with a burning(that cost a lot less),then i decided to make the owner mint the amount of token that had been burned.
 
 acting that way results less expensive for the sender.
+
+##### Remember: the owner can't mint more than the maximum supply
