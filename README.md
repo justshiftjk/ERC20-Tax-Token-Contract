@@ -179,6 +179,7 @@ The Taxable token apply a tax to each transaction, so if A transfers N tokens to
 ## how it works
    * A send 10 token to B
    * C has set the percentage to 10%
-   * B receive 9 token and in the the one that miss is burned
+   * B receive 9 token, the the one that miss is burned
    * C(the owner) can mint while the initial supply is not reached
+   * the owner can't mint more than the initial supply
    
