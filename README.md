@@ -142,11 +142,9 @@ contract TaxableTokenMock is TaxableToken{
 }
 ```
 ## Info
-
-you can find a deployed instance of this token at https://kovan.etherscan.io/token/0x298c116572a58cd10980f090a17755b5d098e1a9
-
+* you can find a deployed instance of this token at https://kovan.etherscan.io/token/0x298c116572a58cd10980f090a17755b5d098e1a9
+* gas for a transaction: 58000
 ## How to use it
-
  * download this repo
  * import this repo's contracts in your contracts folder.
  * try with the example token
@@ -178,4 +176,9 @@ The Taxable token apply a tax to each transaction, so if A transfers N tokens to
    * ChangeWhitelistedPercentage: redefine the percentage for a whitelisted account
    * ChangeWhitelistedMinimumFee: redefine the minimun fee that a whitelisted account have to pay
    * DeleteWhitelistedAccount: delete an account from the whitelist
-
+## how it works
+   * A send 10 token to B
+   * C has set the percentage to 10%
+   * B receive 9 token and in the the one that miss is burned
+   * C(the owner) can mint while the initial supply is not reached
+   
