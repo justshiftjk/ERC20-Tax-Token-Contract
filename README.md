@@ -165,11 +165,11 @@ The idea is simple,we apply a tax to the sender when an amount of tokens are sen
 
 ### Example:
 
-The Taxable token a tax for each transaction, so if A transfers N tokens to B, B receive N – t(N) tokens, where t(N) è una tassa calculated usually in percentage.
+The Taxable token apply a tax to each transaction, so if A transfers N tokens to B, B receive N – t(N) tokens, where t(N) is a tax calculated usually in percentage.
 
 #### The purpose can be:
  * gaining using the tax
- * deflationing the token using the burning so that the token became more expensive
+ * deflationing the token using the burning so that the token become more expensive
 
 ## Methods
 
