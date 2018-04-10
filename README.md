@@ -142,7 +142,7 @@ contract TaxableTokenMock is TaxableToken{
 }
 ```
 ## Info
-* you can find a deployed instance of this token at https://kovan.etherscan.io/token/0x298c116572a58cd10980f090a17755b5d098e1a9
+* you can find a deployed instance of this token at https://kovan.etherscan.io/address/0x3515472ab191e10e5e8020b5e9745e727b338120
 ## How to use it
  * download this repo
  * import this repo's contracts in your contracts folder.
