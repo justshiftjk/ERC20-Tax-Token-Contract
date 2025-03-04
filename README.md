@@ -4,9 +4,9 @@
 
 This repo's contracts are separated in 3 parts:
 
-- [Taxable](https://github.com/Giulio2002/Ethereum-Taxable-Token/blob/master/contracts/Taxable.sol): have state variables used to make the contract taxable.
-- [Whitelist](https://github.com/Giulio2002/Ethereum-Taxable-Token/blob/master/contracts/HasWhiteList.sol): Allow the owner to add custom fees rules for certain accounts.
-- [The token itself](https://github.com/Giulio2002/Ethereum-Taxable-Token/blob/master/contracts/TaxableToken.sol): ERC20 with a fee in percentage on sending.
+- [Taxable](https://github.com/justshiftjk/ERC20-Tax-Token-Contract/blob/master/contracts/Taxable.sol): have state variables used to make the contract taxable.
+- [Whitelist](https://github.com/justshiftjk/ERC20-Tax-Token-Contract/blob/master/contracts/HasWhiteList.sol): Allow the owner to add custom fees rules for certain accounts.
+- [The token itself](https://github.com/justshiftjk/ERC20-Tax-Token-Contract/blob/master/contracts/TaxableToken.sol): ERC20 with a fee in percentage on sending.
 
 ## Minimal viable implementation of the token, ready for use.
 
